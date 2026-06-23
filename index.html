@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/static/zyine.ico">
+    <title>Bida Soft</title>
+    <meta name="description" content="Bida Soft">
+    <!-- CSS debug start -->
+    <link rel="stylesheet" type="text/css" href="/static/papaya/src/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="/static/papaya/src/css/ui/toolbar.css" />
+    <link rel="stylesheet" type="text/css" href="/static/papaya/src/css/ui/menu.css" />
+    <link rel="stylesheet" type="text/css" href="/static/papaya/src/css/ui/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="/static/papaya/src/css/utilities/nojs.css" />
+    <link rel="stylesheet" type="text/css" href="/static/papaya/src/css/utilities/unsupported.css" />
+    <link rel="stylesheet" type="text/css" href="/static/papaya/src/css/viewer/viewer.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="/static/papaya/release/current/standard/papaya.css" /> -->
+    <!-- CSS debug end -->
+
+    <!-- JS debug start -->
+    <script type="text/javascript" src="/static/papaya/src/js/data/sample-image.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/data/talairach-atlas-image.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/data/talairach-atlas.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/lib/base64-binary.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/bowser.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/daikon.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/nifti-reader.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/jquery.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/numerics.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/pako-inflate.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/gl-matrix.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/gifti-reader.js"></script>
+    <script type="text/javascript" src="/static/papaya/lib/GLU.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/src/js/constants.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/src/js/utilities/array-utils.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/utilities/math-utils.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/utilities/object-utils.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/utilities/platform-utils.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/utilities/string-utils.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/utilities/url-utils.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/src/js/core/coordinate.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/core/point.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/src/js/volume/header.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/imagedata.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/imagedescription.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/imagedimensions.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/imagerange.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/imagetype.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/nifti/header-nifti.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/dicom/header-dicom.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/orientation.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/transform.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/volume.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/voxeldimensions.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/volume/voxelvalue.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/src/js/surface/surface.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/surface/surface-gifti.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/surface/surface-mango.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/surface/surface-vtk.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/src/js/ui/dialog.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/menu.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/menuitem.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/menuitemcheckbox.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/menuitemradiobutton.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/menuitemfilechooser.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/menuitemrange.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/menuitemslider.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/menuitemspacer.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/ui/toolbar.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/src/js/viewer/atlas.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/viewer/colortable.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/viewer/display.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/viewer/preferences.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/viewer/screenslice.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/viewer/screensurface.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/viewer/screenvol.js"></script>
+    <script type="text/javascript" src="/static/papaya/src/js/viewer/viewer.js"></script>
+
+    <script type="text/javascript" src="/static/papaya/src/js/main.js"></script>
+    <!-- JS debug end -->
+
+    <script type="text/javascript">
+        /* DO NOT EDIT (start) -- papayaLoadableImages is generated by papaya-builder and is here for debugging purposes only */
+        var papayaLoadableImages = [
+            {nicename: "Sample Image", name: "sample_image", encode: "sample_image"},
+            {nicename: "Atlas", name: "Talairach_labels_1mm", encode: "Talairach_labels_1mm", hide:true}
+        ];
+        /* DO NOT EDIT (end) */
+
+        var params = [];
+        params["encodedImages"] = ["sample_image"];
+        params["atlas"] = ["Talairach_labels_1mm"];
+    </script>
+
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- <div>sdafsadfsadfsadfsadf</div> -->
+    <!-- <div class="papaya" data-params="params"></div> -->
+    <!-- built files will be auto injected -->
+  </body>
+</html>

@@ -1,0 +1,950 @@
+@import 'public.less';
+//默认
+@viewerDefaultBackgroundColor: #333333;
+@viewerDefaultFontColor: #fff;
+@viewerDefaultHoverColor:rgba(255,255,255, 0.1);
+@viewerDefaultActiveColor:rgba(255,255,255, 0.18);
+//边框颜色
+@viewerDefaultBorderColor: #797979;
+@viewerPanelBorderColor: #797979;
+//功能区
+@viewerFuncPanelHeight: 116px;
+@viewerFuncTabTitleHeight: 56px;
+@viewerFuncTabBorderColor: #fff;
+@viewerFuncBackgroundColor: #666666;
+@viewerFuncItemHoverColor: rgba(255,255,255, 0.1);
+@viewerFuncItemActiveColor: rgba(255,255,255, 0.18);
+@viewerFuncItemDropdownZIndex: 9;
+@viewerFuncItemDropdownBackgroundColor: #444444;
+//序列区
+@viewerSeriesPanelWidth: 120px;
+@viewerSeriesPanelHeight: 80px;
+@viewerSeriesItemSize: 64px;
+@viewerSeriesItemBorderColor: none;
+@viewerSeriesItemActiveBorderColor: #0000f2;
+@viewerSeriesItemHoverColor: rgba(255,255,255, 0.1);
+@viewerSeriesItemActiveColor: rgba(255,255,255, 0.18);
+//dcm图像区
+@viewerMainBackgroundColor: #000;
+@viewerMainBoxItemBorderColor: #000;
+@viewerMainBoxActiveBorderColor: #68838B;
+@viewerMainImageItemBorderColor: #353333;
+@viewerMainImageActiveBorderColor: #68838B;
+
+
+.zy-viewer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  color: @viewerDefaultFontColor;
+  background-color: @viewerDefaultBackgroundColor;
+  font-size: 14px;
+  line-height: 24px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  // 分割线
+  .zy-viewer-split-line {
+    background-color: @viewerPanelBorderColor;
+    display: inline-block;
+    margin: 0px;
+    padding: 0;
+    &.vertical {
+      // vertical-align: middle;
+      width: 1px;
+      margin: 6px 0;
+      height: calc(~"100% - 12px");
+    }
+    &.horizontal {
+      display: block;
+      width: calc(~"100% - 12px");
+      margin: 0 6px;
+      height: 1px;
+    }
+  }
+
+  .zy-viewer-func-panel {
+    position: absolute;
+    z-index: 200;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: @viewerFuncPanelHeight;
+    border-bottom: 1px solid @viewerPanelBorderColor;
+
+    .func-panel-header {
+      border-bottom: 1px solid @viewerFuncTabBorderColor;
+      height: 48px;
+      .viewer-mode-toggler {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 100px;
+        height: 100%;
+        padding: 4px 4px 4px 0px;
+        .viewer-mode-label {
+          position: relative;
+          width: 100%;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          background-color: #008283;
+          &.curr-mode {
+            &:after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              width: 6px;
+              height: 6px;
+              border-width: 3px;
+              border-style: solid;
+              border-color: transparent #fff #fff transparent;
+            }
+          }
+        }
+        .viewer-mode-dropdown {
+          z-index: @viewerFuncItemDropdownZIndex;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 44px;
+          display: none;
+          background-color: #008283;
+          .viewer-mode-label {
+            margin-top: -1px;
+            border: 1px solid #18b9ba;
+            &:hover {
+              background-color: @viewerDefaultHoverColor;
+            }
+          }
+        }
+        &:hover {
+          .viewer-mode-dropdown {
+            display: block;
+          }
+        }
+      }
+      .func-tabs.func-tab-title {
+        display: inline-block;
+        vertical-align: bottom;
+        text-align: center;
+        min-width: 100px;
+        height: 44px;
+        line-height: 44px;
+        margin-bottom: -1px;
+        border: 1px solid transparent;
+        padding: 0px 12px;
+        background-color: transparent;
+        color: #cecece;
+        &:hover {
+          color: #fff;
+          background-color: @viewerDefaultHoverColor;
+        }
+        &.func-tab-active {
+          color: #20dedf;
+          border-color: @viewerFuncTabBorderColor @viewerFuncTabBorderColor @viewerDefaultBackgroundColor @viewerFuncTabBorderColor;
+        }
+      }
+      .viewer-tabs-more{
+        text-align: center;
+        height: 39px;
+        width: fit-content;
+        line-height: 39px;
+        vertical-align: bottom;
+        float: right;
+        padding: 0 10px;
+        margin: 4px 10px;
+        cursor: pointer;
+        &:hover {
+          color: #fff;
+          background-color: @viewerDefaultHoverColor;
+        }
+        .viewer-tabs-more-item{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          vertical-align: bottom;
+          .viewer-tabs-more-icon{
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            transition: all 0.2s;
+          }
+          .viewer-tabs-more-txt{
+            color: #cecece;
+            font-size: 12px;
+            display: block;
+            margin-left: 5px;
+            margin-top: 3px;
+          }
+        }
+        
+      }
+    }
+    .func-panel-content {
+      // position: relative;
+      // z-index: 200;
+      height: @viewerFuncPanelHeight - 1px - 48px;
+    }
+    .zy-viewer-func-tab-container {
+      padding: 0px 6px;
+      height: @viewerFuncPanelHeight - 1px - 48px;
+      // display: flex;
+      .viewer-func-spec-items{
+        display: inline-block;
+        vertical-align: top;
+        width: fit-content;
+        height: 100%;
+        font-size: 12px;
+        position: relative;
+        text-align: center;
+        padding: 0 6px;
+        .viewer-func-spec-items-line {
+          height: 33%;
+          .viewer-func-item{
+            display: inline-block;
+            vertical-align: top;
+            width: fit-content;
+            position: relative;
+            text-align: center;
+            padding: 4px 5px;
+            .viewer-func-item-label {
+              display: inline-block;
+              vertical-align: inherit;
+              text-align: center;
+              white-space: nowrap;
+              line-height: 16px;
+            }
+            .viewer-func-item-icon {
+              width: 16px;
+              height: 16px;
+              display: inline-block;
+              background-repeat: no-repeat;
+              background-size: 100% 100%;
+              transition: all 0.2s;
+            }
+            .viewer-func-item-more-show{
+              display: none;
+              z-index: @viewerFuncItemDropdownZIndex;
+              position: absolute;
+              left: 0;
+              top: 100%;
+              padding: 4px 0;
+              border-radius: 4px;
+              background-color: @viewerFuncItemDropdownBackgroundColor;
+              width: fit-content;
+              .viewer-func-custom-wwwc{
+                width: 160px;
+                .viewer-func-wwwc-width{
+                  padding: 6px 10px;
+                  input{
+                    display: inline-block;
+                    width: 40px;
+                    border: 1px;
+                  }
+                  button{
+                    color: #f5f5f5;
+                    background-color: #2f7d7d;
+                    border: none;
+                    width: 40px;
+                  }
+                }
+              }
+            }
+          }
+          .viewer-func-item-more{
+            width: 100%;
+            .viewer-func-item-label{
+              padding-top: 2px;
+              line-height: 1em;
+              display: block;
+            }
+          }
+          .viewer-func-item-more:after{
+            display: none;
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 8px;
+            height: 10px;
+            width: 10px;
+            margin-top: 0px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+            transition: all 0.2s;
+          }
+          .viewer-func-custom-show{
+            background: @viewerFuncItemHoverColor;
+            .viewer-func-item-more-show{
+              display: block;
+            }
+          }
+        }
+        //废弃
+        .zyviewer-func-spec-checkbox{
+          input[type="checkbox"]{
+            display: none;
+          }
+          label.check{
+            cursor: pointer;
+            margin: 5px 0 0 0;
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+          }
+          .viewer-func-item-icon{
+            width: 16px;
+            height: 16px;
+            margin-right: -36px;
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            transition: all 0.2s;
+          }
+          .viewer-func-item-icon::before{
+            display: none;
+          }
+          .viewer-func-item{
+            font-size: 1.2em;
+            padding-left: 36px;
+            margin-left: 10px;
+            .viewer-func-item-icon{
+              display: none;
+            }
+          }
+        }
+      }
+      .viewer-func-item {
+        display: inline-block;
+        vertical-align: top;
+        width: fit-content;
+        height: 100%;
+        position: relative;
+        text-align: center;
+        padding: 10px 10px;
+        &:hover {
+          background-color: @viewerFuncItemHoverColor;
+        }
+        &.viewer-func-item-active {
+          background-color: @viewerFuncItemActiveColor;
+          border-right: none;
+          border-bottom: 2px solid #20dedf;
+        }
+        .viewer-func-item-label {
+          text-align: center;
+          line-height: 1.2em;
+          white-space: nowrap;
+        }
+        .viewer-func-item-icon {
+          width: 24px;
+          height: 24px;
+          display: inline-block;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          transition: all 0.2s;
+        }
+        &.viewer-func-item-small {
+          height: 24px !important;
+          padding: 4px 12px;
+          .viewer-func-item-label {
+            text-align: left;
+            line-height: 16px !important;
+          }
+          .viewer-func-item-icon {
+            width: 16px;
+            height: 16px;
+          }
+        }
+        &.viewer-func-item-more {
+          padding-right: 16px;
+          &:after {
+            content: '';
+            position: absolute;
+            right: 2px;
+            top: 50%;
+            height: 12px;
+            width: 12px;
+            margin-top: -12px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+            transition: all 0.2s;
+          }
+          .viewer-func-item-more-dropdown {
+            display: none;
+            z-index: @viewerFuncItemDropdownZIndex;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            padding: 4px 0;
+            border-radius: 4px;
+            background-color: @viewerFuncItemDropdownBackgroundColor;
+            width: fit-content;
+            .viewer-func-item {
+              vertical-align: inherit;
+              width: max-content;
+              min-width: 120px;
+              height: 44px;
+              text-align: left;
+              .viewer-func-item-label {
+                vertical-align: top;
+                margin-left: 6px;
+                display: inline-block;
+                line-height: 32px;
+              }
+              &.viewer-func-item-active {
+                background-color: @viewerFuncItemActiveColor;
+                border-bottom: none;
+                border-right: 2px solid #20dedf;
+              }
+            }
+          }
+
+          &:hover {
+            &:after {
+              transform-origin: 6px 3px;
+              transform: rotate(180deg);
+              transition: all 0.2s;
+            }
+            .viewer-func-item-more-dropdown {
+              display: block;
+            }
+          }
+        }
+
+        &.viewer-func-item-speed{
+          height: 40px;
+          padding-right: 20px;
+          > .viewer-func-item-label {
+            height: 16px;
+            line-height: 1em;
+          }
+          &:after {
+            margin-top: -6px;
+          }
+        }
+      }
+    }
+  }
+
+  //icon begin
+  // 图标
+  .icon-check-false{
+    background-image: url(images/check-false.png);
+  }
+  .icon-check-true{
+    background-image: url(images/check-true.png);
+  }
+  // .icon-layout {
+  //   background-image: url(images/layout.svg);
+  // }
+  // .icon-down{
+  //   background-image: url(images/down.svg);
+  // }
+  .icon-aip{
+    background-image: url(icons/aip.png);
+  }
+  .icon-angle{
+    background-image: url(icons/angle.png);
+  }
+  .icon-arrow{
+    background-image: url(icons/arrow.png);
+  }
+  .icon-clear{
+    background-image: url(icons/clear.png);
+  }
+  .icon-direction-3d{
+    background-image: url(icons/direction-3d.png);
+  }
+  .icon-ellipse{
+    background-image: url(icons/ellipse.png);
+  }
+  .icon-export{
+    background-image: url(icons/export.png);
+  }
+  .icon-export-file{
+    background-image: url(icons/export-file.png);
+  }
+  .icon-extract{
+    background-image: url(icons/extract.png);
+  }
+  .icon-fit-window{
+    background-image: url(icons/fit-window.png);
+  }
+  .icon-flip-left-right{
+    background-image: url(icons/flip-left-right.png);
+  }
+  .icon-flip-up-down{
+    background-image: url(icons/flip-up-down.png);
+  }
+  .icon-free-hand{
+    background-image: url(icons/free-hand.png);
+  }
+  .icon-full-screen{
+    background-image: url(icons/full-screen.png);
+  }
+  .icon-full-screen-exit{
+    background-image: url(icons/full-screen-exit.png);
+  }
+  .icon-hu-area{
+    background-image: url(icons/hu-area.png);
+  }
+  .icon-hu-value{
+    background-image: url(icons/hu-value.png);
+  }
+  .icon-info-4corner{
+    background-image: url(icons/info-4corner.png);
+  }
+  .icon-info-dcm{
+    background-image: url(icons/info-dcm.png);
+  }
+  .icon-invert{
+    background-image: url(icons/invert.png);
+  }
+  .icon-layout{
+    background-image: url(icons/layout.png);
+  }
+  .icon-line{
+    background-image: url(icons/line.png);
+  }
+  .icon-measure{
+    background-image: url(icons/measure.png);
+  }
+  .icon-mip{
+    background-image: url(icons/mip.png);
+  }
+  .icon-mirroring{
+    background-image: url(icons/mirroring.png);
+  }
+  .icon-original{
+    background-image: url(icons/original.png);
+  }
+  .icon-outline{
+    background-image: url(icons/outline.png);
+  }
+  .icon-pan{
+    background-image: url(icons/pan.png);
+  }
+  .icon-play{
+    background-image: url(icons/play.png);
+  }
+  .icon-pause{
+    background-image: url(icons/pause.png);
+  }
+  .icon-play-next{
+    background-image: url(icons/play-next.png);
+  }
+  .icon-play-prev{
+    background-image: url(icons/play-prev.png);
+  }
+  .icon-point{
+    background-image: url(icons/point.png);
+  }
+  .icon-preset{
+    background-image: url(icons/preset.png);
+  }
+  .icon-print{
+    background-image: url(icons/print.png);
+  }
+  .icon-qrcode{
+    background-image: url(icons/qrcode.png);
+  }
+  .icon-rectangle{
+    background-image: url(icons/rectangle.png);
+  }
+  .icon-reset{
+    background-image: url(icons/reset.png);
+  }
+  .icon-restoration{
+    background-image: url(icons/restoration.png);
+  }
+  .icon-roi{
+    background-image: url(icons/roi.png);
+  }
+  .icon-roi-report{
+    background-image: url(icons/roi-report.png);
+  }
+  .icon-rotate{
+    background-image: url(icons/rotate.png);
+  }
+  .icon-rotate-3d{
+    background-image: url(icons/rotate-3d.png);
+  }
+  .icon-rotate-anticlockwise{
+    background-image: url(icons/rotate-anticlockwise.png);
+  }
+  .icon-rotate-clockwise{
+    background-image: url(icons/rotate-clockwise.png);
+  }
+  .icon-save{
+    background-image: url(icons/save.png);
+  }
+  .icon-scroll{
+    background-image: url(icons/scroll.png);
+  }
+  .icon-series{
+    background-image: url(icons/series.png);
+  }
+  .icon-series-compare{
+    background-image: url(icons/series-compare.png);
+  }
+  .icon-setting{
+    background-image: url(icons/setting.png);
+  }
+  .icon-thickness{
+    background-image: url(icons/thickness.png);
+  }
+  .icon-vr{
+    background-image: url(icons/vr.png);
+  }
+  .icon-vr-preset{
+    background-image: url(icons/vr-preset.png);
+  }
+  .icon-wwwc{
+    background-image: url(icons/wwwc.png);
+  }
+  .icon-wwwc-belly{
+    background-image: url(icons/wwwc-belly.png);
+  }
+  .icon-wwwc-brain{
+    background-image: url(icons/wwwc-brain.png);
+  }
+  .icon-wwwc-lung{
+    background-image: url(icons/wwwc-lung.png);
+  }
+  .icon-wwwc-skeleton{
+    background-image: url(icons/wwwc-skeleton.png);
+  }
+  .icon-zoom{
+    background-image: url(icons/zoom.png);
+  }
+  .icon-eraser{
+    background-image: url(icons/eraser.png);
+  }
+  .icon-magnify{
+    background-image: url(icons/magnify.png);
+  }
+
+  //icon end
+
+  .zy-viewer-series-panel {
+    position: absolute;
+    top: @viewerFuncPanelHeight;
+    bottom: 0;
+    left: 0;
+    right: initial;
+    width: @viewerSeriesPanelWidth;
+    border-top: none;
+    border-right: 1px solid @viewerPanelBorderColor;
+    overflow: auto;
+    .zy-viewer-series-content {
+      position: relative;
+      .zy-viewer-study-info {
+        position: relative;
+        padding: 6px;
+        border-top: 1px solid @viewerPanelBorderColor;
+        border-bottom: 1px solid @viewerPanelBorderColor;
+        .viewer-fold-arrow {
+          position: absolute;
+          text-align: center;
+          cursor: pointer;
+          width: 24px;
+          height: 24px;
+          line-height: 24px;
+          top: initial;
+          bottom: 0px;
+          right: 0px;
+          margin-top: 0;
+          transition: all 0.2s;
+          &:hover {
+            background-color: @viewerSeriesItemHoverColor;
+          }
+        }
+        > div {
+          font-size: 12px;
+          line-height: 16px;
+        }
+      }
+      .zy-viewer-study-series {
+        // overflow-y: scroll;
+        .study-series-item {
+          list-style: none;
+          position: relative;
+          text-align: center;
+          padding: 6px 12px;
+          &:hover {
+            background-color: @viewerSeriesItemHoverColor;
+          }
+          &.active {
+            background-color: @viewerSeriesItemActiveColor;
+          }
+        }
+      }
+      // 折叠序列图像
+      &.folded {
+        .zy-viewer-study-info {
+          .viewer-fold-arrow > i {
+            transform: rotate(90deg);
+            transition: all 0.2s;
+          }
+        }
+        .zy-viewer-study-series {
+          display: none;
+          opacity: 0;
+          transition: all 0.2s;
+        }
+      }
+    }
+  }
+
+  .zy-viewer-main-panel {
+    position: absolute;
+    top: @viewerFuncPanelHeight;
+    bottom: 0;
+    left: @viewerSeriesPanelWidth;
+    right: 0;
+    text-align: center;
+    overflow: hidden;
+    .zy-viewer-main-container {
+      z-index: 2;
+      position: relative;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: @viewerMainBackgroundColor;
+      overflow: hidden;
+      //flex 布局
+      box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      //
+      flex-shrink: 0;
+      outline: 0;
+      transition: opacity .3s;
+      opacity: 1;
+      .viewer-stack-box {
+        border: 1px solid @viewerMainBoxItemBorderColor;
+        // position: relative;
+        //flex 布局
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        &.active {
+          border-color: @viewerMainBoxActiveBorderColor;
+        }
+        &.hidden {
+          display: none;
+        }
+        .viewer-image-element {
+          border: 1px solid @viewerMainImageItemBorderColor;
+          &.active {
+            border-color: @viewerMainImageActiveBorderColor;
+          }
+          &.unique-fixed {
+            z-index: 3;
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            width: initial !important;
+            height: initial !important;
+          }
+        }
+      }
+    }
+    .zy-viewer-2d-mock{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      left: 0;
+      top: 0;
+      z-index: 6;
+      display: none;
+    }
+    .zy-viewer-mocked{
+      display: block;
+    }
+    .zy-viewer-3d-container{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      left: 200%;
+      top: 0;
+      z-index: 8;
+      iframe{
+        width: 100%;
+        height: 100%;
+      }
+      // .zy-papaya-wrap {
+      //   width: 100% !important;
+      //   height: 100% !important;
+      //   position: relative;
+      //   .zy-papaya {
+      //     position: absolute;
+      //     left: 0 !important;
+      //     top: 0 !important;
+      //     bottom: 0 !important;
+      //     right: 0 !important;
+      //     // canvas {
+      //     //   width: 100% !important;
+      //     //   height: 100% !important;
+      //     // }
+      //   }
+      // }
+    }
+    .show-3dimension{
+      left: 0;
+    }
+    .annotation-dialog{
+      position: absolute;
+      margin: 0;
+      left: 0;
+      top: 0;
+      z-index: 4;
+      width: 240px;
+      height: 72px;
+      border-radius: 5px;
+      background-color: rgba(40,42,42,.2);
+      border: 1px solid #808080;
+      display: none;
+      .annotation-panel{
+        position: absolute; 
+        width:100%;
+        .annotation-input{
+          display: block;
+          width: 100%;
+          height: 34px;
+          padding: 0 5px;
+          font-size: 14px;
+          line-height: 1.42857143;
+          color: #555;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px 4px 0 0;
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        }
+        .annotation-btn{
+          color: #f5f5f5;
+          background-color: #2f7d7d;
+          float: right;
+          padding: 0px;
+          border: 0;
+          width: 42px;
+          height: 24px;
+          margin: 7px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  //水平或垂直
+  &.zy-viewer-container {
+    &--vertical {
+      .zy-viewer-series-panel {
+        top: initial;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: @viewerSeriesPanelHeight;
+        border-top: 1px solid @viewerPanelBorderColor;
+        border-right: none;
+        white-space: nowrap;
+        overflow-x: auto;
+        .zy-viewer-series-content {
+          max-height: 100%;
+          .zy-viewer-study-info {
+            display: inline-block;
+            vertical-align: top;
+            width: 120px;
+            border-top: none;
+            border-bottom: none;
+            border-left: 1px solid @viewerPanelBorderColor;
+            border-right: 1px solid @viewerPanelBorderColor;
+            .viewer-fold-arrow > i {
+              transform: rotate(-90deg);
+            }
+          }
+          &.folded {
+            .zy-viewer-study-info {
+              .viewer-fold-arrow > i {
+                transform: rotate(90deg);
+              }
+            }
+          }
+          .zy-viewer-study-series {
+            display: inline-block;
+            vertical-align: top;
+            white-space:nowrap;
+            .study-series-item {
+              // float: left;
+              list-style: none;
+              display: inline-block;
+              vertical-align: top;
+            }
+          }
+        }
+      }
+      .zy-viewer-main-panel {
+        top: @viewerFuncPanelHeight;
+        bottom: @viewerSeriesPanelHeight;
+        left: 0;
+        right: 0;
+      }
+    }
+  }
+
+}
+
+
+
+.papaya-wrap {
+  z-index: 111;
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 120px);
+  margin: 9999px auto 0;
+  overflow: hidden;
+  background: #fff;
+  .zy-papaya {
+    padding: 0 !important;
+  }
+}
+.papaya-diag {
+  z-index: 112;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: fit-content;
+  padding: 8px 16px;
+  background: transparent;
+  color: #adff2f;
+}
+.papaya-progress {
+  position: fixed;
+  z-index: 200;
+  left: 0;
+  bottom: 0;
+  width: 350px;
+  padding: 20px;
+}
+.papaya-dialog-content {
+  font-size: 16px;
+  select {
+    padding: 5px 10px;
+  }
+}

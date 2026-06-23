@@ -1,0 +1,75 @@
+@pageBackgroundColor:#f0f2f5;//页面背景颜色
+@lightBackGroundColor:#fff;//卡片及模块背景颜色
+@defaultFontSize: 14px; //默认系统字体大小
+@defaultLineHeight: 1.75em; //默认行高
+
+@defaultColor:#2f2f2f;//默认文字颜色
+// @activeColor:#1890ff;//系统主色
+// @activeColor: @ris-primary-color;//系统主色
+@warnColor:#ec6767;//警告颜色
+@darkColor: #001529; //左侧深色背景
+@leftLogoBackgroundColor:#00284d;//左侧标志背景颜色
+@grayFontColor:#657180;;//灰色文字颜色
+@defaultLogoColor: #00b8c2;
+@defaultLogoHightlightColor: #33cccc;
+
+//******************以上为系统配置项,所有的高度，宽度可随心配置
+@risMainBgColor: #45c398;
+
+//滚动条设置
+::-webkit-scrollbar-track
+{
+	background-color: #fbfbfb;
+}
+::-webkit-scrollbar-thumb
+{
+  border-radius:3px; 
+	background-color: #aaa;
+}
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar:horizontal
+{
+	width: 6px;
+  background-color: #fbfbfb;
+}
+
+html,
+body {
+    margin: 0;
+    font-size: @defaultFontSize;
+    line-height: @defaultLineHeight;
+    color: @defaultColor;
+    * {
+      box-sizing: border-box;
+    }
+    *::before, *::after {
+      box-sizing: border-box;
+    }
+}
+img{
+  border: none;
+}
+
+//css3 Animation：
+@keyframes twinkling{
+  0%{
+    opacity:0; /*透明度为0*/
+  }
+  100%{
+    opacity:1; /*透明度为1*/
+  }
+}
+
+@keyframes ani-loading-spin {
+    from { transform: rotate(0deg);}
+    50%  { transform: rotate(180deg);}
+    to   { transform: rotate(360deg);}
+}
+
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

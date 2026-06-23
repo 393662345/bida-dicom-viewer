@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>查看检查影像</title>
+  <script type="text/javascript">
+    // var url = 'http://10.0.0.133:8642/#/'
+    var url = window.location.protocol + '//' + window.location.host + '/#/'
+    var params = ''
+    function judgeIE() {
+      params = window.location.href.split('?')[1]
+      if (Object.defineProperties != undefined) {
+        window.location.href = params == undefined ? url : (url + '?' + params)
+      }
+    }
+    function openchrome() {
+      /*
+      创建ActiveXObject实例，只在IE下有效，才可以创建
+      */
+      var objShell = new ActiveXObject("WScript.Shell");
+
+      // var targetUrl = "https://www.zyine.com";
+      var targetUrl = params == undefined ? url : (url + '?' + params)
+      /*
+        命令参数说明
+        cmd.exe /c dir 是执行完dir命令后关闭命令窗口。
+        cmd.exe /k dir 是执行完dir命令后不关闭命令窗口。
+        cmd.exe /c start dir 会打开一个新窗口后执行dir指令，原窗口会关闭。
+        cmd.exe /k start dir 会打开一个新窗口后执行dir指令，原窗口不会关闭。
+        这里的dir是start chrome www.baidu.com//用谷歌浏览器打开百度
+      */
+      objShell.Run("cmd.exe /c start chrome " + targetUrl, 0, true);
+      alert("请在谷歌浏览器中继续操作")
+    }
+  </script>
+</head>
+
+<body onload="judgeIE()"
+  <div>
+    <a href="#" onclick="openchrome()">点击此处用谷歌浏览器打开</a>
+  </div>
+</body>
+
+</html>
